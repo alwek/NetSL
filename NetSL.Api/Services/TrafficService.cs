@@ -26,20 +26,56 @@ namespace NetSL.Api.Services {
         public async Task<TrafficSituation> GetTrafficSituation()
         {
             try{
-                Uri uri = HttpClientUtil.CreateUri(httpClient.BaseAddress, trafiklageKey, "json", "trafficsituation", null);
+                string query = string.Empty;
                 string content = null;
+                Uri uri = HttpClientUtil.CreateUri(httpClient.BaseAddress, trafiklageKey, "json", "trafficsituation", null);
                 HttpRequestMessage request = HttpClientUtil.CreateHttpRequestMessage(HttpMethod.Get, uri, content);
                 HttpResponseMessage response = await httpClient.SendAsync(request);
                 object result = await HttpClientUtil.ReadHttpResponseMessage<TrafficSituation>(response);
 
                 if(result is TrafficSituation)
                     return result as TrafficSituation;
+                else if(result is null)
+                    return CreateTrafficSituationError("Got null from response.");
                 else
                     return null;
             } catch(Exception ex){
-                //log info
-                throw ex;
+                return CreateTrafficSituationError(ex.Message);
             }
+        }
+
+        private TrafficSituation CreateTrafficSituationError(string message){
+            return new TrafficSituation {
+                StatusCode = -1,
+                Message = message
+            };
+        }
+
+        public async Task<RealtimeInformation> GetRealtimeInformation(int siteId, int timeWindow){
+            try{
+                string query = $"&siteid={siteId}&timewindow={timeWindow}";
+                string content = null;
+                Uri uri = HttpClientUtil.CreateUri(httpClient.BaseAddress, realtidsinformationKey, "json", "realtimedeparturesV4", query: query);
+                HttpRequestMessage request = HttpClientUtil.CreateHttpRequestMessage(HttpMethod.Get, uri, content);
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+                object result = await HttpClientUtil.ReadHttpResponseMessage<RealtimeInformation>(response);
+
+                if(result is RealtimeInformation)
+                    return result as RealtimeInformation;
+                else if(result is null)
+                    return CreateRealtimeInformationError("Got null from response.");
+                else 
+                    return null;
+            } catch(Exception ex){
+                return CreateRealtimeInformationError(ex.Message);
+            }
+        }
+
+        private RealtimeInformation CreateRealtimeInformationError(string message){
+            return new RealtimeInformation {
+                StatusCode = -1,
+                Message = message
+            };
         }
     }
 }

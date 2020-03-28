@@ -15,8 +15,7 @@ namespace NetSL.Api.Utils {
                 else 
                     return null;
             } catch(Exception ex) {
-                //log ex
-                return null;
+                throw ex;
             }
         }
 
@@ -33,7 +32,7 @@ namespace NetSL.Api.Utils {
         }
 
         public static Uri CreateUri(Uri baseAddress, string key, string format, string additionalPath, string query = null){
-            return new UriBuilder($"{baseAddress}/{additionalPath}.{format}"){
+            return new UriBuilder($"{baseAddress}{additionalPath}.{format}"){
                 Query = $"key={key}{(query ?? string.Empty)}" 
             }.Uri;
         }

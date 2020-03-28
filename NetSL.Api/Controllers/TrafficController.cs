@@ -13,11 +13,6 @@ namespace NetSL.Api.Controllers
     [ApiController]
     public class TrafficController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         private readonly ITrafficService _serivce;
         private readonly ILogger<TrafficController> _logger;
 
@@ -27,23 +22,21 @@ namespace NetSL.Api.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
-        {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
-        }
-
         [HttpGet("trafficsituation")]
         public async Task<IActionResult> GetTrafficSituation()
         {
+            _logger.LogInformation($"Traffic Situation called from host: {Request.Host.Host}");
             return Ok(await _serivce.GetTrafficSituation());
+        }
+
+        [HttpGet("realtimeinformation")]
+        public async Task<IActionResult> GetRealtimeInformation(int siteId, int timeWindow)
+        {
+            if(siteId <= 0 || timeWindow <= 0)
+                return BadRequest("Missing or invalid parameters. Expected <SiteId> and <TimeWindow>");
+
+            _logger.LogInformation($"Realtime Information called from host: {Request.Host.Host}");
+            return Ok(await _serivce.GetRealtimeInformation(siteId, timeWindow));
         }
     }
 }
