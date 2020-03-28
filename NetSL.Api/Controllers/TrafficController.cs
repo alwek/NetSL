@@ -11,17 +11,17 @@ namespace NetSL.Api.Controllers
     [ApiVersion("1.0")]
     [Route("api/v{v:apiVersion}")]
     [ApiController]
-    public class TraficController : ControllerBase
+    public class TrafficController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ITraficService _serivce;
-        private readonly ILogger<TraficController> _logger;
+        private readonly ITrafficService _serivce;
+        private readonly ILogger<TrafficController> _logger;
 
-        public TraficController(ITraficService service, ILogger<TraficController> logger)
+        public TrafficController(ITrafficService service, ILogger<TrafficController> logger)
         {
             _serivce = service;
             _logger = logger;

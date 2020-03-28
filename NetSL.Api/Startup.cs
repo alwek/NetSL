@@ -49,7 +49,7 @@ namespace NetSL.Api
             });
 
             // TraficService
-            services.AddHttpClient<ITraficService, TraficService>(options => {
+            services.AddHttpClient<ITrafficService, TrafficService>(options => {
                 options.BaseAddress = new Uri(Configuration.GetValue<string>("SLApiUrl"));
             });
 

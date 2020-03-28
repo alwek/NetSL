@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 
 namespace NetSL.Api.Services{
-    public interface ITraficService{
+    public interface ITrafficService{
         public Task<string> GetTrafficSituation();
     }
 }

@@ -6,7 +6,7 @@ using NetSL.Api.Settings;
 using NetSL.Api.Utils;
 
 namespace NetSL.Api.Services {
-    public class TraficService : ITraficService
+    public class TrafficService : ITrafficService
     {
         private readonly HttpClient httpClient;
         private readonly string trafiklageKey;
@@ -14,7 +14,7 @@ namespace NetSL.Api.Services {
         private readonly string realtidsinformationKey;
         private readonly string storningsinformationKey;
 
-        public TraficService(HttpClient client, IKeySettings settings){
+        public TrafficService(HttpClient client, IKeySettings settings){
             httpClient = client;
             trafiklageKey = settings.TrafiklageKey;
             reseplanerareKey = settings.ReseplanerareKey;
