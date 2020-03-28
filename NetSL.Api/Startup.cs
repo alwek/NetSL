@@ -60,6 +60,10 @@ namespace NetSL.Api
                 Configuration.GetValue<string>("KeySettings:StorningsinformationKey"),
                 Configuration.GetValue<string>("KeySettings:RealtidsinformationKey"));
             services.AddSingleton(settings);
+
+            services.AddLogging(options => {
+                options.SetMinimumLevel(LogLevel.Information);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -22,10 +22,10 @@ namespace NetSL.Api.Services {
             storningsinformationKey = settings.StorningsinformationKey;
         }
 
-        public async Task<string> GetTrafiklage()
+        public async Task<string> GetTrafficSituation()
         {
             try{
-                Uri uri = HttpClientUtil.CreateUri(httpClient.BaseAddress, trafiklageKey, "json", "traficsituation", null);
+                Uri uri = HttpClientUtil.CreateUri(httpClient.BaseAddress, trafiklageKey, "json", "trafficsituation", null);
                 string content = null;
                 HttpRequestMessage request = HttpClientUtil.CreateHttpRequestMessage(HttpMethod.Get, uri, content);
                 HttpResponseMessage response = await httpClient.SendAsync(request);

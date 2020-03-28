@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NetSL.Api.Services;
 
 namespace NetSL.Api.Controllers
 {
@@ -17,14 +18,16 @@ namespace NetSL.Api.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
+        private readonly ITraficService _serivce;
         private readonly ILogger<TraficController> _logger;
 
-        public TraficController(ILogger<TraficController> logger)
+        public TraficController(ITraficService service, ILogger<TraficController> logger)
         {
+            _serivce = service;
             _logger = logger;
         }
 
-        [HttpGet("traficsituation")]
+        [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
@@ -35,6 +38,12 @@ namespace NetSL.Api.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet("trafficsituation")]
+        public async Task<IActionResult> GetTrafficSituation()
+        {
+            return Ok(await _serivce.GetTrafficSituation());
         }
     }
 }
