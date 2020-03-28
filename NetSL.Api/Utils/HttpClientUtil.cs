@@ -14,8 +14,8 @@ namespace NetSL.Api.Utils {
                     return JsonSerializer.Deserialize<T>(messageContent);
                 else 
                     return null;
-            } catch(Exception) {
-                //log
+            } catch(Exception ex) {
+                //log ex
                 return null;
             }
         }

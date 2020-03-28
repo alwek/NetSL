@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NetSL.Api.Models;
 using NetSL.Api.Settings;
 using NetSL.Api.Utils;
 
@@ -22,16 +23,19 @@ namespace NetSL.Api.Services {
             storningsinformationKey = settings.StorningsinformationKey;
         }
 
-        public async Task<string> GetTrafficSituation()
+        public async Task<TrafficSituation> GetTrafficSituation()
         {
             try{
                 Uri uri = HttpClientUtil.CreateUri(httpClient.BaseAddress, trafiklageKey, "json", "trafficsituation", null);
                 string content = null;
                 HttpRequestMessage request = HttpClientUtil.CreateHttpRequestMessage(HttpMethod.Get, uri, content);
                 HttpResponseMessage response = await httpClient.SendAsync(request);
-                object result = await HttpClientUtil.ReadHttpResponseMessage<string>(response);
+                object result = await HttpClientUtil.ReadHttpResponseMessage<TrafficSituation>(response);
 
-                return result as string;
+                if(result is TrafficSituation)
+                    return result as TrafficSituation;
+                else
+                    return null;
             } catch(Exception ex){
                 //log info
                 throw ex;
