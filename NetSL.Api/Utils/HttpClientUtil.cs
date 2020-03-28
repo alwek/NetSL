@@ -32,9 +32,9 @@ namespace NetSL.Api.Utils {
             return request;
         }
 
-        public static Uri CreateUri(Uri baseAddress, string key, string format, string addiitionalPath, string query = null){
-            return new UriBuilder($"{baseAddress}.{format}"){
-                Query = $"key={key}{query}"
+        public static Uri CreateUri(Uri baseAddress, string key, string format, string additionalPath, string query = null){
+            return new UriBuilder($"{baseAddress}/{additionalPath}.{format}"){
+                Query = $"key={key}{(query ?? string.Empty)}" 
             }.Uri;
         }
     }
