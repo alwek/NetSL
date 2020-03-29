@@ -38,5 +38,20 @@ namespace NetSL.Api.Controllers
             _logger.LogInformation($"Realtime Information called from host: {Request.Host.Host}");
             return Ok(await _serivce.GetRealtimeInformation(siteId, timeWindow));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDeviationInformation(string transportMode, string lineNumber, int siteId, string fromDate, string toDate)
+        {
+            if(string.IsNullOrEmpty(transportMode) || 
+                string.IsNullOrEmpty(lineNumber) || 
+                string.IsNullOrEmpty(fromDate) || 
+                string.IsNullOrEmpty(toDate) || 
+                siteId <= 0)
+                return BadRequest("Missing or invalid parameters." + 
+                    "Expected <TransportMode>, <LineNumber>, <SiteId>, <FromDate> and <ToDate>");
+
+            _logger.LogInformation($"Deviation Information called from host: {Request.Host.Host}");
+            return Ok(await _serivce.GetDeviationInformation(transportMode, lineNumber, siteId, fromDate, toDate));
+        }
     }
 }

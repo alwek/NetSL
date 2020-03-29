@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace NetSL.Api.Models {
+namespace NetSL.Api.Models.TrafficSituation {
     public class TrafficSituation {
         public int StatusCode {get;set;}
         public string Message {get;set;}

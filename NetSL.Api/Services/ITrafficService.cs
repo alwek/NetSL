@@ -1,9 +1,12 @@
 using System.Threading.Tasks;
-using NetSL.Api.Models;
+using NetSL.Api.Models.TrafficSituation;
+using NetSL.Api.Models.RealtimeInformation;
+using NetSL.Api.Models.DeviationInformation;
 
 namespace NetSL.Api.Services{
     public interface ITrafficService{
         public Task<TrafficSituation> GetTrafficSituation();
         public Task<RealtimeInformation> GetRealtimeInformation(int siteId, int timeWindow);
+        public Task<DeviationInformation> GetDeviationInformation(string transportMode, string lineNumber, int siteId, string fromDate, string toDate);
     }
 }

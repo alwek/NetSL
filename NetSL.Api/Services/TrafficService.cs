@@ -2,7 +2,9 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using NetSL.Api.Models;
+using NetSL.Api.Models.TrafficSituation;
+using NetSL.Api.Models.RealtimeInformation;
+using NetSL.Api.Models.DeviationInformation;
 using NetSL.Api.Settings;
 using NetSL.Api.Utils;
 
@@ -73,6 +75,33 @@ namespace NetSL.Api.Services {
 
         private RealtimeInformation CreateRealtimeInformationError(string message){
             return new RealtimeInformation {
+                StatusCode = -1,
+                Message = message
+            };
+        }
+
+        public async Task<DeviationInformation> GetDeviationInformation(string transportMode, string lineNumber, int siteId, string fromDate, string toDate){
+            try{
+                string query = $"&transportMode={transportMode}&lineNumber={lineNumber}&siteId={siteId}&fromDate={fromDate}&toDate={toDate}";
+                string content = null;
+                Uri uri = HttpClientUtil.CreateUri(httpClient.BaseAddress, storningsinformationKey, "json", "deviations", query);
+                HttpRequestMessage request = HttpClientUtil.CreateHttpRequestMessage(HttpMethod.Get, uri, content);
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+                object result = await HttpClientUtil.ReadHttpResponseMessage<DeviationInformation>(response);
+
+                if(result is DeviationInformation)
+                    return result as DeviationInformation;
+                else if(result is null)
+                    return CreateDeviationInformationError("Got null from response.");
+                else 
+                    return null;
+            } catch(Exception ex){
+                return CreateDeviationInformationError(ex.Message);
+            }
+        }
+
+        private DeviationInformation CreateDeviationInformationError(string message){
+            return new DeviationInformation {
                 StatusCode = -1,
                 Message = message
             };
