@@ -7,6 +7,7 @@ using NetSL.Api.Models.RealtimeInformation;
 using NetSL.Api.Models.DeviationInformation;
 using NetSL.Api.Settings;
 using NetSL.Api.Utils;
+using NetSL.Api.Models.Stations;
 
 namespace NetSL.Api.Services {
     public class TrafficService : ITrafficService
@@ -16,6 +17,7 @@ namespace NetSL.Api.Services {
         private readonly string reseplanerareKey;
         private readonly string realtidsinformationKey;
         private readonly string storningsinformationKey;
+        private readonly string platsuppslagKey;
 
         public TrafficService(HttpClient client, IKeySettings settings){
             httpClient = client;
@@ -23,6 +25,7 @@ namespace NetSL.Api.Services {
             reseplanerareKey = settings.ReseplanerareKey;
             realtidsinformationKey = settings.RealtidsinformationKey;
             storningsinformationKey = settings.StorningsinformationKey;
+            platsuppslagKey = settings.PlatsuppslagKey;
         }
 
         public async Task<TrafficSituation> GetTrafficSituation()
@@ -102,6 +105,33 @@ namespace NetSL.Api.Services {
 
         private DeviationInformation CreateDeviationInformationError(string message){
             return new DeviationInformation {
+                StatusCode = -1,
+                Message = message
+            };
+        }
+
+        public async Task<Stations> GetStations(string searchString){
+            try{
+                string query = $"&searchstring={searchString}";
+                string content = null;
+                Uri uri = HttpClientUtil.CreateUri(httpClient.BaseAddress, platsuppslagKey, "json", "typeahead", query);
+                HttpRequestMessage request = HttpClientUtil.CreateHttpRequestMessage(HttpMethod.Get, uri, content);
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+                object result = await HttpClientUtil.ReadHttpResponseMessage<Stations>(response);
+
+                if(result is Stations)
+                    return result as Stations;
+                else if(result is null)
+                    return CreateStationsError("Got null from response.");
+                else 
+                    return null;
+            } catch(Exception ex){
+                return CreateStationsError(ex.Message);
+            }
+        }
+
+        private Stations CreateStationsError(string message){
+            return new Stations{
                 StatusCode = -1,
                 Message = message
             };

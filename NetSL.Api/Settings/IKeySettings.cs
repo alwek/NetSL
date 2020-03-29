@@ -5,5 +5,6 @@ namespace NetSL.Api.Settings{
         public string StorningsinformationKey {get;set;}
         public string RealtidsinformationKey {get;set;}
         public string TrafiklageKey {get;set;}
+        public string PlatsuppslagKey { get; set; }
     }
 }

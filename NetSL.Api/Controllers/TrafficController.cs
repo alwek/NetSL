@@ -39,7 +39,7 @@ namespace NetSL.Api.Controllers
             return Ok(await _serivce.GetRealtimeInformation(siteId, timeWindow));
         }
 
-        [HttpGet]
+        [HttpGet("deviationinformation")]
         public async Task<IActionResult> GetDeviationInformation(string transportMode, string lineNumber, int siteId, string fromDate, string toDate)
         {
             if(string.IsNullOrEmpty(transportMode) || 
@@ -52,6 +52,16 @@ namespace NetSL.Api.Controllers
 
             _logger.LogInformation($"Deviation Information called from host: {Request.Host.Host}");
             return Ok(await _serivce.GetDeviationInformation(transportMode, lineNumber, siteId, fromDate, toDate));
+        }
+
+        [HttpGet("stations")]
+        public async Task<IActionResult> GetStations(string searchString)
+        {
+            if(string.IsNullOrEmpty(searchString))
+                return BadRequest("Missing or invalid parameters. Expected <SearchString>.");
+
+            _logger.LogInformation($"Stations search called from host: {Request.Host.Host}");
+            return Ok(await _serivce.GetStations(searchString));
         }
     }
 }
