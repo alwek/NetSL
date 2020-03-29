@@ -59,7 +59,8 @@ namespace NetSL.Api
                 Configuration.GetValue<string>("KeySettings:ReseplanerareKey"),
                 Configuration.GetValue<string>("KeySettings:StorningsinformationKey"),
                 Configuration.GetValue<string>("KeySettings:RealtidsinformationKey"),
-                Configuration.GetValue<string>("KeySettings:PlatsuppslagKey"));
+                Configuration.GetValue<string>("KeySettings:PlatsuppslagKey"),
+                Configuration.GetValue<string>("KeySettings:ResrobotKey"));
             services.AddSingleton(settings);
 
             services.AddLogging(options => {

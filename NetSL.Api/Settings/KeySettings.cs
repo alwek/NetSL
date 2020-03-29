@@ -5,13 +5,20 @@ namespace NetSL.Api.Settings {
         public string RealtidsinformationKey {get;set;}
         public string TrafiklageKey {get;set;}
         public string PlatsuppslagKey { get; set; }
+        public string ResrobotKey { get; set; }
 
-        public KeySettings(string trafiklageKey, string reseplanerareKey, string storningsinformationKey, string realtidsinformationKey, string platsuppslagKey) {
+        public KeySettings(string trafiklageKey, 
+            string reseplanerareKey, 
+            string storningsinformationKey, 
+            string realtidsinformationKey, 
+            string platsuppslagKey,
+            string resrobotKey) {
             this.TrafiklageKey = trafiklageKey;
             this.ReseplanerareKey = reseplanerareKey;
             this.StorningsinformationKey = storningsinformationKey;
             this.RealtidsinformationKey = realtidsinformationKey;
             this.PlatsuppslagKey = platsuppslagKey;
+            this.ResrobotKey = resrobotKey;
         }
     }
 }

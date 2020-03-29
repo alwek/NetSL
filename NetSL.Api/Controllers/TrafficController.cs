@@ -63,5 +63,14 @@ namespace NetSL.Api.Controllers
             _logger.LogInformation($"Stations search called from host: {Request.Host.Host}");
             return Ok(await _serivce.GetStations(searchString));
         }
+
+        [HttpGet("departures")]
+        public async Task<IActionResult> GetDepartures(string siteId){
+            if(string.IsNullOrEmpty(siteId))
+                return BadRequest("Missing or invalid parameters. Expected <SiteId>");
+
+            _logger.LogInformation($"Get departures called from host: {Request.Host.Host}");
+            return Ok(await _serivce.GetDepartures(siteId));
+        }
     }
 }

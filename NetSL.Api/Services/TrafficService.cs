@@ -18,6 +18,7 @@ namespace NetSL.Api.Services {
         private readonly string realtidsinformationKey;
         private readonly string storningsinformationKey;
         private readonly string platsuppslagKey;
+        private readonly string resrobotKey;
 
         public TrafficService(HttpClient client, IKeySettings settings){
             httpClient = client;
@@ -26,6 +27,7 @@ namespace NetSL.Api.Services {
             realtidsinformationKey = settings.RealtidsinformationKey;
             storningsinformationKey = settings.StorningsinformationKey;
             platsuppslagKey = settings.PlatsuppslagKey;
+            resrobotKey = settings.ResrobotKey;
         }
 
         public async Task<TrafficSituation> GetTrafficSituation()
@@ -135,6 +137,24 @@ namespace NetSL.Api.Services {
                 StatusCode = -1,
                 Message = message
             };
+        }
+
+        public async Task<Departure> GetDepartures(string siteId){
+            try{
+                string query = $"&id={siteId}";
+                string content = null;
+                Uri uri = HttpClientUtil.CreateUri(new Uri("https://api.resrobot.se/v2/"), platsuppslagKey, "json", "departureBoard", query);
+                HttpRequestMessage request = HttpClientUtil.CreateHttpRequestMessage(HttpMethod.Get, uri, content);
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+                object result = await HttpClientUtil.ReadHttpResponseMessage<Departure>(response);
+
+                if(result is Departure)
+                    return result as Departure;
+                else 
+                    return null;
+            } catch(Exception){
+                return null;
+            }
         }
     }
 }

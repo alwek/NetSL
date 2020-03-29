@@ -6,5 +6,6 @@ namespace NetSL.Api.Settings{
         public string RealtidsinformationKey {get;set;}
         public string TrafiklageKey {get;set;}
         public string PlatsuppslagKey { get; set; }
+        public string ResrobotKey { get; set; }
     }
 }

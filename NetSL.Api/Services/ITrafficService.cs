@@ -10,5 +10,6 @@ namespace NetSL.Api.Services{
         public Task<RealtimeInformation> GetRealtimeInformation(int siteId, int timeWindow);
         public Task<DeviationInformation> GetDeviationInformation(string transportMode, string lineNumber, int siteId, string fromDate, string toDate);
         public Task<Stations> GetStations(string searchString);
+        public Task<Departure> GetDepartures(string siteId);
     }
 }
